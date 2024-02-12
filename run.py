@@ -114,13 +114,10 @@ def run_all(args):
     if (args.method == 'FGSM'):
       attack = my_fgsm
     elif (args.method == 'UAP'):
-      print("niubi")
       attack = my_uap
     else:
-      print("shabi")
       attack = my_pgd
   else:
-    print("6")
     if (args.method == 'FGSM'):
       attack = torchattacks.FGSM(model, args.eps)
     elif (args.method == 'MIFGSM'):
@@ -128,7 +125,6 @@ def run_all(args):
     else:
       attack = torchattacks.PGD(model, args.eps, args.alpha, args.steps)
   if(attack != my_uap):
-    print("gaoji")
     acc_cnt = 0
     racc_cnt = 0
     psr_cnt = 0
@@ -156,7 +152,6 @@ def run_all(args):
     print("psr  = ", float(psr_cnt / len))
     print("sasr = ", float(sasr_cnt / len))
   else:
-    print("gongxi")
     acc_cnt = 0
     racc_cnt = 0
     psr_cnt = 0
@@ -166,7 +161,6 @@ def run_all(args):
       X, Y = dataloader.dataset.__getitem__(i)
       X = np.asarray(X, dtype=np.uint8).transpose(1, 2, 0)   # [C, H, W]
       dataset[i] = X
-    print("official")
     def grads(AX:Tensor, Y:Tensor): return grad(model, AX, Y)
     v = universal_perturbation(dataset, model, grads)
     DX = transforms.ToTensor()(v[0]) * 255
@@ -179,7 +173,7 @@ def run_all(args):
       Y = torch.tensor([Y])
       X = X.unsqueeze(dim=0)
       pred_X = model(X).argmax(dim=-1)
-      AX = X + 4 * DX
+      AX = X + DX
       pred_AX = model(AX.to(torch.float)).argmax(dim=-1)
       if(pred_X == Y): 
         acc_cnt += 1

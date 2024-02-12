@@ -24,3 +24,10 @@ python run.py -M ‘UAP’
 The code will output acc, racc, asr, psr, sasr
 with the universal perbutation for the whole dataset(imagenet1k)
 
+# Environments
+
+numpy 1.26.0
+tensorflow 2.15.0
+torch 2.2.0+cu118
+
+
